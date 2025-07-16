@@ -1,12 +1,11 @@
-
 import asyncio
 from aiogram import Bot, Dispatcher
 from handlers import register_handlers
 import os
 
-TOKEN = os.getenv("BOT_TOKEN")  # Установим в Render как переменную окружения
+BOT_TOKEN = os.getenv("MY_BOT_TOKEN")  # Установим в Render как переменную окружения
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 async def main():
