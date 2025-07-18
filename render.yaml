@@ -1,5 +1,5 @@
 services:
-  - type: web
+  - type: worker
     name: isimbay-dating-bot
     env: python
     plan: free
@@ -8,3 +8,5 @@ services:
     envVars:
       - key: BOT_TOKEN
         value: "8088318424:AAHe8zUKX4nC2SoqcW983UmlT_SLIkOPBUY"
+      - key: PYTHON_VERSION
+        value: 3.10.13
