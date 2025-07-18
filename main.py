@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher
 from handlers import register_handlers
 import os
 
-BOT_TOKEN = os.getenv("MY_BOT_TOKEN")  # Установим в Render как переменную окружения
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # ВАЖНО: именно BOT_TOKEN, без MY_
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()

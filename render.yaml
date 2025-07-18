@@ -6,5 +6,5 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.13
+      - key: BOT_TOKEN
+        value: "8088318424:AAHe8zUKX4nC2SoqcW983UmlT_SLIkOPBUY"
