@@ -1,15 +1,23 @@
 import asyncio
+import logging
 from aiogram import Bot, Dispatcher
-from handlers import register_handlers
-import os
+from aiogram.enums import ParseMode
+from handlers import user  # Импортируем роутер пользователя
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # ВАЖНО: именно BOT_TOKEN, без MY_
+# Вставь сюда свой токен от BotFather
+TOKEN = "8088318424:AAHe8zUKX4nC2SoqcW983UmlT_SLIkOPBUY"
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+# Включаем логирование
+logging.basicConfig(level=logging.INFO)
 
 async def main():
-    register_handlers(dp)
+    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
+    dp = Dispatcher()
+
+    # Подключаем роутеры
+    dp.include_router(user.router)
+
+    # Запускаем бота
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
