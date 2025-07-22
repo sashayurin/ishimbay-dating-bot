@@ -1,9 +1,16 @@
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
+from aiogram.types import (
+    Message,
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    KeyboardButton
+)
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
-from aiogram.filters import CommandStart, StateFilter
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.filters import CommandStart
 
 router = Router()
 
@@ -73,16 +80,26 @@ async def get_photo(message: Message, state: FSMContext):
 
     data = await state.get_data()
     caption = (
-        f"Анкета готова:\n"
-        f"Имя: {data['name']}\n"
-        f"Возраст: {data['age']}\n"
-        f"Пол: {data['gender']}"
+        f"<b>Анкета готова:</b>\n\n"
+        f"👤 Имя: {data['name']}\n"
+        f"🎂 Возраст: {data['age']}\n"
+        f"🚻 Пол: {data['gender']}"
     )
 
-    await message.answer_photo(photo=photo_id, caption=caption)
+    await message.answer_photo(photo=photo_id, caption=caption, parse_mode="HTML")
     await state.clear()
 
-
-# Регистрируем роутер для подключения в main.py
-def register_user_handlers(dp):
-    dp.include_router(router)
+# ---------- ХЭНДЛЕР НА КНОПКУ "Правила" ----------
+@router.callback_query(F.data == "rules")
+async def show_rules(callback: CallbackQuery):
+    text = (
+        "📌 <b>Правила использования бота:</b>\n\n"
+        "1. Уважайте других пользователей.\n"
+        "2. Запрещён спам, мат, реклама.\n"
+        "3. Отправляйте только реальные анкеты и фотографии.\n"
+        "4. Администрация может удалить анкету без объяснения причин.\n"
+        "5. Все анкеты проверяются перед публикацией.\n\n"
+        "❤️ Хороших знакомств!"
+    )
+    await callback.message.answer(text, parse_mode="HTML")
+    await callback.answer()
