@@ -1,7 +1,6 @@
+from .user import router as user_router
+from .admin import router as admin_router
 
-from .user import register_user_handlers
-from .admin import register_admin_handlers
-
-def register_handlers(dp):
-    register_user_handlers(dp)
-    register_admin_handlers(dp)
+def register_all_handlers(dp):
+    dp.include_router(user_router)
+    dp.include_router(admin_router)
