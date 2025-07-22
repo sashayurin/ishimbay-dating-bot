@@ -81,3 +81,8 @@ async def get_photo(message: Message, state: FSMContext):
 
     await message.answer_photo(photo=photo_id, caption=caption)
     await state.clear()
+
+
+# Регистрируем роутер для подключения в main.py
+def register_user_handlers(dp):
+    dp.include_router(router)
