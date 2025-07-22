@@ -74,3 +74,10 @@ async def get_photo(message: Message, state: FSMContext):
     data = await state.get_data()
     caption = (
         f"Анкета готова:\n"
+        f"Имя: {data['name']}\n"
+        f"Возраст: {data['age']}\n"
+        f"Пол: {data['gender']}"
+    )
+
+    await message.answer_photo(photo=photo_id, caption=caption)
+    await state.clear()
