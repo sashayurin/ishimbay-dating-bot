@@ -21,7 +21,8 @@ class RegisterForm(StatesGroup):
 
 @router.message(Command("start"))
 async def start(message: Message, state: FSMContext):
-    await message.answer("Привет! Давай создадим твою анкету.\nКак тебя зовут?")
+    await message.answer("Привет! Это бот знакомств городов Ишимбай, Салават, Стерлитамак и др. 💌\n"
+                         "Давай создадим твою анкету.\nКак тебя зовут?")
     await state.set_state(RegisterForm.name)
 
 
@@ -85,13 +86,14 @@ async def process_photo(message: Message, state: FSMContext):
         await state.clear()
         return
 
-    # Парням — оплата
+    # Для парней — запрос на оплату
     prices = [LabeledPrice(label="Доступ к анкете", amount=PRICE_RUB * 100)]
 
     if not PAYMENT_PROVIDER_TOKEN:
         await message.answer("⚠️ Ошибка: платежный токен не настроен. Обратитесь к администратору.")
         return
 
+    # Отправка инвойса для оплаты
     await message.answer_invoice(
         title="Регистрация",
         description="Оплата за размещение анкеты в сервисе знакомств",
@@ -100,8 +102,8 @@ async def process_photo(message: Message, state: FSMContext):
         prices=prices,
         payload="registration_payment"
     )
-    await state.update_data(photo_id=photo_id)
-    # ❗Не сбрасываем state до оплаты!
+
+    await state.update_data(photo_id=photo_id)  # ❗Не сбрасываем state до оплаты!
 
 
 @router.pre_checkout_query()
