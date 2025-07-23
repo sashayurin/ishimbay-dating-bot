@@ -128,3 +128,5 @@ async def on_successful_payment(message: Message, state: FSMContext):
 
     await message.answer("✅ Оплата прошла успешно! Ваша анкета отправлена на проверку.")
     await state.clear()
+# Пример изменения
+print("Тестирование изменения")
