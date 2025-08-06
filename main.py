@@ -42,7 +42,8 @@ async def main():
     # Запуск веб-приложения через aiohttp
     await web.run_app(app, host="0.0.0.0", port=3000)
 
-# Запуск main в уже существующем event loop
+# Запуск без использования asyncio.run, так как в Render уже есть работающий event loop
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop.create_task(main())  # Запуск основного процесса
+    loop.run_forever()  # Поддерживаем loop активным
