@@ -31,10 +31,10 @@ async def main():
 
     # Настройка webhook
     app = web.Application()
-    
+
     # Настроим webhook на URL, предоставленный Render
     await bot.set_webhook(WEBHOOK_URL)  # Настройка webhook для получения запросов от Telegram
-    
+
     # Устанавливаем роуты для приема webhook-запросов
     app.add_routes([web.post(f"/{TOKEN}", on_webhook)])
 
@@ -43,5 +43,6 @@ async def main():
 
 # Для Render (и других систем), которые уже управляют event loop
 if __name__ == "__main__":
-    app = asyncio.run(main())  # Используем asyncio для подготовки и получения app
-    web.run_app(app, host="0.0.0.0", port=3000)
+    loop = asyncio.get_event_loop()  # Получаем уже существующий event loop
+    app = loop.run_until_complete(main())  # Получаем приложение
+    web.run_app(app, host="0.0.0.0", port=3000)  # Запускаем веб-приложение через существующий loop
