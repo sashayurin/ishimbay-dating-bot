@@ -39,10 +39,9 @@ async def main():
     app.add_routes([web.post(f"/{TOKEN}", on_webhook)])
 
     # Запуск веб-приложения через aiohttp
-    await web.run_app(app, host="0.0.0.0", port=3000)
+    return app
 
-# Запуск без использования asyncio.run, так как в Render уже есть работающий event loop
+# Для Render (и других систем), которые уже управляют event loop
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.create_task(main())  # Запуск основного процесса
-    loop.run_forever()  # Поддерживаем loop активным
+    app = asyncio.run(main())  # Используем asyncio для подготовки и получения app
+    web.run_app(app, host="0.0.0.0", port=3000)
