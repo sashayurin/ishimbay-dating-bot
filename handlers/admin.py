@@ -1,13 +1,15 @@
-from aiogram import Router
+import os  # Добавь этот импорт
+
+from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import Command
 
 router = Router()
 
+# Получаем ADMIN_ID из переменных окружения
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 # Словарь для хранения заявок на проверку
-# С user_id, чтобы было возможно идентифицировать пользователей
 pending_applications = {}
 
 @router.message(Command("admin"))
@@ -16,7 +18,7 @@ async def admin_panel(message: Message):
         await message.answer("❌ У вас нет доступа к панели администратора.")
         return
     
-    # Отображаем все заявки на проверку
+    # Логика для отображения всех заявок на проверку
     if not pending_applications:
         await message.answer("📝 Нет новых заявок.")
         return
