@@ -27,7 +27,8 @@ async def main():
     app = web.Application()
     
     # Настроим webhook на URL, предоставленный Render
-    app.add_routes([web.post(f"/{TOKEN}", dp._webhook_handler)])
+    await bot.set_webhook(WEBHOOK_URL)  # Настройка webhook для получения запросов от Telegram
+    app.add_routes([web.post(f"/{TOKEN}", dp.handle_webhook)])
 
     # Запуск веб-приложения через aiohttp
     await web.run_app(app, host="0.0.0.0", port=3000)
