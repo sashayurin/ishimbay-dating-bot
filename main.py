@@ -20,7 +20,6 @@ async def on_start(request):
     return web.Response(text="Bot is running!")
 
 async def on_webhook(request):
-    # Получаем данные от Telegram
     json_data = await request.json()
     update = await bot.parse_update(json_data)
     await dp.process_update(update)
@@ -42,9 +41,8 @@ async def main():
     # Запуск веб-приложения через aiohttp
     await web.run_app(app, host="0.0.0.0", port=3000)
 
-# Запуск без использования asyncio.run, так как в Render уже есть работающий event loop
+# Используем существующий event loop для запуска
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(main())  # Запуск основного процесса
     loop.run_forever()  # Поддерживаем loop активным
- 
