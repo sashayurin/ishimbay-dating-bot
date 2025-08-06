@@ -15,19 +15,21 @@ WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher(storage=MemoryStorage())
 
-# Обработчик для корня
+# Обработчик для корня, чтобы проверить, что сервер работает
 async def on_start(request):
     return web.Response(text="Bot is running!")
 
 async def main():
     dp.include_router(user.router)  # Включаем роутер из user.py
     dp.include_router(admin.router)  # Включаем роутер из admin.py (если есть)
-    
+
     # Настройка webhook
     app = web.Application()
-    app.add_routes([web.post(f"/{TOKEN}", dp.handle_webhook)])
+    
+    # Настроим webhook на URL, предоставленный Render
+    app.add_routes([web.post(f"/{TOKEN}", dp._webhook_handler)])
 
-    # Запуск веб-сервера через aiohttp
+    # Запуск веб-приложения через aiohttp
     await web.run_app(app, host="0.0.0.0", port=3000)
 
 if __name__ == "__main__":
